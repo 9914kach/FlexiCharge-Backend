@@ -40,8 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v3
+    
     - name: Execute tests
       run: |
         export PYTHONPATH=.
-        pip install -r /requirements.txt
+        pip install -r ./backend-app/requirements.txt
         pytest test/test_api.py
