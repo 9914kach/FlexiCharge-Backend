@@ -43,5 +43,5 @@ jobs:
     - name: Execute tests
       run: |
         export PYTHONPATH=.
-        pip install -r backend-app/requirements.txt
+        pip install -r ./backend-app/requirements.txt
         pytest test/test_api.py
