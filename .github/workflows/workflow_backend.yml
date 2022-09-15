@@ -35,6 +35,11 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ github.event.inputs.name }}"
       
+  tests:
+
+    runs-on: ubuntu-latest
+    steps:
+    
     - name: Execute tests
       run: |
         export PYTHONPATH=.
