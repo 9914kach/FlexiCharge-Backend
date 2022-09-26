@@ -1,17 +1,14 @@
 import requests
-
-url = "http://18.202.253.30:8080/chargers"
-
-r = requests.get(url)
-
-content = r.headers["Content-Type"]
-
-response_body = r.json()
-
-testID = 100009
-
-for i in response_body:
-    print(i)
-
+import pytest
     
-print(len(response_body))
+def test():
+    chargerid= "100009"
+    url = "http://18.202.253.30:8080/chargers/" + chargerid
+
+    r = requests.get(url)
+    
+    response_body = r.json()
+    
+    print(response_body["status"])  
+
+test()

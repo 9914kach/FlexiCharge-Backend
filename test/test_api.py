@@ -3,8 +3,7 @@ import requests
 import pytest
 
 class TestApi:
-    
-    
+
     def test_api_status_code(self):
         r = requests.get("http://18.202.253.30:8080/")
         assert r.status_code ==200, "Status code is not 200"
@@ -13,28 +12,34 @@ class TestApi:
         r = requests.get("http://18.202.253.30:8080/")
         assert r.encoding == "utf-8", "Encoding is not utf-8"
     
-    def test_chargerid_exists(self, expected_chargerid = 100009):
+    def test_chargerid_exists(self, chargerid = "100009"):
         
-        r = requests.get("http://18.202.253.30:8080/chargers")
+        url = "http://18.202.253.30:8080/chargers/" + chargerid
+
+        r = requests.get(url)
         
         response_body = r.json()
-        index = 0
-        max_length = len(response_body)
-        for i in response_body:
-            if i["chargerID"] == expected_chargerid:
-                break
-            if index < max_length - 1:
-                index += 1
-        
-        assert response_body[index]["chargerID"] == expected_chargerid, "ChargerID does not exist"
+    
+        assert response_body["chargerID"] == 100009, "ChargerID does not exist"
             
-    def test_charger_is_available(self, expected_chargerid = 100009):
+    def test_charger_status_is_available(self, chargerid = "100009"):
+                
+        url = "http://18.202.253.30:8080/chargers/" + chargerid
         
-        r = requests.get("http://18.202.253.30:8080/chargers")
+        r = requests.get(url)
 
         response_body = r.json()
         
-        charger = response_body[0]["chargerID"]
+        assert response_body["status"] == "Available", "Charger is not available"
+    
+    def test_charger_serialnmbr(self, serialnmbr = "testnumber15"):
         
+        url = "http://18.202.253.30:8080/chargers/serial/" + serialnmbr
+        
+        r = requests.get(url)
+        
+        response_body = r.json()
+        
+        assert response_body["serialNumber"] == serialnmbr, "Serial number does not exist"
         
         
