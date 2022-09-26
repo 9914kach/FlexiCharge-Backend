@@ -2,13 +2,16 @@ import requests
 import pytest
     
 def test():
-    chargerid= "100009"
+    chargerid= "100011"
     url = "http://18.202.253.30:8080/chargers/" + chargerid
-
+        
     r = requests.get(url)
+ 
+    response = r.json()
     
-    response_body = r.json()
-    
-    print(response_body["status"])  
+    foo = response["status"]
 
+    print(foo)
+
+    assert foo == "Available", "Charger is not available"
 test()
