@@ -15,7 +15,7 @@ class TestApiChargers:
     
     #Is it ok to write tests this way?
     #The way I've learnet is that test should be simple and only test one thing, so using 2 asserts might be wrong
-    def test_chargerid_exists(self, chargerid = "100"):
+    def test_chargerid_exists(self, chargerid = "100009"):
         
         url = "http://18.202.253.30:8080/chargers/" + chargerid
 
