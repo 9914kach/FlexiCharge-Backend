@@ -46,18 +46,13 @@ class TestApiChargers:
         url = "http://18.202.253.30:8080/chargers/" + chargerid
         
         r = requests.get(url)
+        
+        assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
 
-        try:
+        if r.status_code == 200:
             response_body = r.json()
-            #Status of the charger
-            availability = response_body["status"]
-            print(availability)
-            #id = 100009, status is "Available"
-            #id = 100011, status is "reserved"        
-            assert availability == "Available", "Charger is not available"
-
-        except:
-            assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
+            assert response_body["status"] == "Available", "Charger is not available"
+        
         
     def test_charger_serialnmbr(self, serialnmbr = "testnumber15"):
         
