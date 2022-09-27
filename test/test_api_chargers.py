@@ -12,15 +12,29 @@ class TestApiChargers:
         r = requests.get("http://18.202.253.30:8080/")
         assert r.encoding == "utf-8", "Encoding is not utf-8"
     
-    def test_chargerid_exists(self, chargerid = "100009"):
+    
+    #Is it ok to write tests this way?
+    #The way I've learnet is that test should be simple and only test one thing, so using 2 asserts might be wrong
+    def test_chargerid_exists(self, chargerid = "100"):
         
         url = "http://18.202.253.30:8080/chargers/" + chargerid
 
         r = requests.get(url)
+
+        #If the response code is 200 this code will execute
+        try:
+                
+            response_body = r.json()
         
-        response_body = r.json()
-    
-        assert response_body["chargerID"] == 100009, "ChargerID does not exist"
+            assert response_body["chargerID"] == 100009, "ChargerID does not exist"
+         
+        #else this will execute    
+        except:
+            
+            assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
+            
+            
+
         
     def test_chargerid_exists_status_code(self, chargerid = "100009"):
         
