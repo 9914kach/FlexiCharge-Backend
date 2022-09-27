@@ -33,8 +33,27 @@ class TestApiChargers:
             
             assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
             
-            
-
+    
+    
+    #What is the bearerAuthentication????        
+    def test_post_charger(self):
+    
+        #Arrange
+        url = "http://18.202.253.30:8080/chargers"
+        payload = {
+                "chargerPointNumber": 23,
+                "location": [57.777714, 14.16301],
+                "serialNumber": "android"
+                }
+        headers = {"Authorization": "Bearer"}
+        
+        #Act
+        request = requests.post(url, json=payload, headers=headers)
+        
+        #Asserts
+        print(request.status_code)
+        assert request.status_code == 200, "Status code is not 200"    
+    
         
     def test_chargerid_exists_status_code(self, chargerid = "100009"):
         
