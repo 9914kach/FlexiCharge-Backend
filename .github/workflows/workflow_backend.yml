@@ -50,12 +50,12 @@ jobs:
       run: |
         export PYTHONPATH=.
         pip install -r ./backend-app/requirements.txt
-        pytest test/test_api_chargers.py --junit-xml=report.xml
-        pytest test/test_api_transactions.py --junit-xml=report.xml
+        pytest test/test_api_chargers.py
+        pytest test/test_api_transactions.py
       
     - name: Run PyTest
       run: |
-        python3 -m pytest --junit-xml=report.xml
+        python -m pytest --junit-xml=report.xml
       
     - name: Publish test result
       uses: mikepenz/action-junit-report@v3
