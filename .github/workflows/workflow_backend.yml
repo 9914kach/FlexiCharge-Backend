@@ -52,3 +52,14 @@ jobs:
         pip install -r ./backend-app/requirements.txt
         pytest test/test_api_chargers.py
         pytest test/test_api_transactions.py
+      
+    - name: Run PyTest
+      run: |
+        python3 -m pytest --junit-xml=report.xml
+      
+    - name: Publish test result
+      uses: mikepenz/action-junit-report@v3
+      if: always() # always run even if the previous step fails
+      with:
+        report_paths: '**/*.xml'
+        
