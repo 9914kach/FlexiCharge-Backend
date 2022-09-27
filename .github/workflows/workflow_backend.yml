@@ -50,8 +50,6 @@ jobs:
       run: |
         export PYTHONPATH=.
         pip install -r ./backend-app/requirements.txt
-        pytest test/test_api_chargers.py
-        pytest test/test_api_transactions.py
       
     - name: Run PyTest
       run: |
