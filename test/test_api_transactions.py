@@ -10,6 +10,7 @@ class TestApiTransactions:
         
         
     #TODO
+    #Currently only checks if transactions exists with the userID
     def test_transaction_by_userId(self):
         
         userId = "1"
