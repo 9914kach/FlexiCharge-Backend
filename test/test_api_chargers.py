@@ -41,7 +41,7 @@ class TestApiChargers:
         #Arrange
         url = "http://18.202.253.30:8080/chargers"
         payload = {
-                "chargerPointNumber": 23,
+                "chargerPointNumber": 24,
                 "location": [57.777714, 14.16301],
                 "serialNumber": "android"
                 }
