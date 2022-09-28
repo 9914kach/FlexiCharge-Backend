@@ -21,18 +21,24 @@ def test():
     assert request.status_code == 200, "Status code is not 200"    
     
     
-def test_transactions():
+def test_signup():
+                #Arrange
+                url = "http://18.202.253.30:8080/auth/sign-up"
+                payload = {
+                        "username": "testuser1@email.com",
+                        "password": "Password123!"
+                }
+                
+                #Act
+                request = requests.post(url, json=payload)
+                
+                #Assert
+                assert request.status_code == 200, "Status code is not 200"
     
-    transid = "947"
-    url = "http://18.202.253.30:8080/transactions/" + transid
-        
-    r = requests.get(url)
-        
-    body = r.json()
-        
-    print(body)
+def test_login():
+    
 
 
     
  
-test_transactions()
+test_signup()
