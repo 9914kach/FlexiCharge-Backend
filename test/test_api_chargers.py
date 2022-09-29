@@ -13,31 +13,23 @@ class TestApiChargers:
         assert r.encoding == "utf-8", "Encoding is not utf-8"
     
     
-    #Is it ok to write tests this way?
     #The way I've learnet is that test should be simple and only test one thing, so using 2 asserts might be wrong
     def test_chargerid_exists(self, chargerid = "100009"):
         
-        url = "http://18.202.253.30:8080/chargers/" + chargerid
+        url = "http://18.202.253.30:8080/chargers/" + str(chargerid)
 
         r = requests.get(url)
 
         #If the response code is 200 this code will execute
-        try:
-                
-            response_body = r.json()
-        
-            assert response_body["chargerID"] == 100009, "ChargerID does not exist"
-         
-        #else this will execute    
-        except:
-            
-            assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
+        response_body = r.json()
+        got_id = response_body['chargerID']
+        # The actual test.
+        assert got_id == chargerid, f"Returned ChargerID does not match the one supplied. expected: {chargerid} got: {got_id}"
             
     
     
-    #What is the bearerAuthentication????        
+    #In order to run this test we need a bearer auth token retrieved when logging into the system.
     def test_post_charger(self):
-    
         #Arrange
         url = "http://18.202.253.30:8080/chargers"
         payload = {
@@ -52,49 +44,46 @@ class TestApiChargers:
         
         #Asserts
         print(request.status_code)
-        assert request.status_code == 200, "Status code is not 200"    
+        assert request.status_code == 200, "Status code is not 200"
+
+        
+        
+        # TODO: Ensure that we only do these types of test on local database in a docker container or something so we dont mess with the production env?
+        # TODO: 
+        #       *  assert that charger X does NOT exists
+        #       *  create charger X
+        #       *  assert that charger X DOES exists
+
     
         
     def test_chargerid_exists_status_code(self, chargerid = "100009"):
-        
-        url = "http://18.202.253.30:8080/chargers/" + chargerid
-
+        url = f"http://18.202.253.30:8080/chargers/{chargerid}"
         r = requests.get(url)
-            
-        assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."    
+
+        assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."   
     
     def test_charger_does_not_exist_status_code(self, chargerid="10009"):
-        
-        url = "http://18.202.253.30:8080/chargers/" + chargerid
-            
+        url = f"http://18.202.253.30:8080/chargers/{chargerid}"
         r = requests.get(url)
-        
-        assert r.status_code == 404, "Charger with id: " + chargerid + " exists."    
+
+        assert r.status_code == 404, "Charger with id: " + chargerid + " exists." 
         
         
     #Function to test if charger is available
     #DOESNT WORK PROPERLY
     def test_charger_status_is_available(self, chargerid = "100009"):
-                
-        url = "http://18.202.253.30:8080/chargers/" + chargerid
-        
+        url = f"http://18.202.253.30:8080/chargers/{chargerid}"
         r = requests.get(url)
-        
-        assert r.status_code == 200, "Charger with id: " + chargerid + " does not exist."
+ 
+        status = r.json()["status"]
+        assert status == "Available", f"Charger is not available {status}"
 
-        if r.status_code == 200:
-            response_body = r.json()
-            assert response_body["status"] == "Available", "Charger is not available"
         
         
-    def test_charger_serialnmbr(self, serialnmbr = "testnumber15"):
-        
-        url = "http://18.202.253.30:8080/chargers/serial/" + serialnmbr
-        
+    def test_charger_serialnmbr(self, serial_number = "testnumber15"):
+        url = f"http://18.202.253.30:8080/chargers/serial/{serial_number}"
         r = requests.get(url)
-        
-        response_body = r.json()
-        
-        assert response_body["serialNumber"] == serialnmbr, "Serial number does not exist"
-        
+
+        got_serial = r.json()["serialNumber"]
+        assert got_serial == serial_number, f"Serial number does not exist got {got_serial} != expected {serial_number}"
         
